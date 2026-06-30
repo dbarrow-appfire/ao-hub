@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+vendor/bundle/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Ruby
+*.gem
+.bundle/
+log/
+tmp/
+storage/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Build outputs
+twenty-apps/dobase-bridge/dist/
+twenty-apps/dobase-bridge/.twenty/
