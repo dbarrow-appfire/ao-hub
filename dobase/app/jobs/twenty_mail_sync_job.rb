@@ -2,6 +2,7 @@
 
 class TwentyMailSyncJob < ApplicationJob
   queue_as :integrations
+  retry_on TwentyClient::ApiError, wait: :exponentially_longer, attempts: 5
 
   def perform(mail_id)
     mail = Mail.find(mail_id)
