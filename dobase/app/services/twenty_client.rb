@@ -14,20 +14,12 @@ module TwentyClient
   end
 
   def self.find_person_by_email(email)
-    resp = HTTParty.get(
-      "#{base_url}/rest/people",
-      query:   { filter: "email.primaryEmail[eq]:#{email}" },
-      headers: auth_headers
-    )
-    resp.parsed_response.dig('data', 'people', 'edges', 0, 'node')
+    parsed = request(:get, '/rest/people', query: { filter: "emails.primaryEmail[eq]:#{email}" })
+    parsed.dig('data', 'people', 0)
   end
 
   def self.create_activity(payload)
-    HTTParty.post(
-      "#{base_url}/rest/timelineActivities",
-      body:    payload.to_json,
-      headers: auth_headers.merge('Content-Type' => 'application/json')
-    )
+    request(:post, '/rest/timelineActivities', body: payload)
   end
 
   def self.auth_headers
