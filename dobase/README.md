@@ -20,6 +20,8 @@ dobase/
     └── routes_snippet.rb                # Routes to add to config/routes.rb
 ```
 
+**`app/services/twenty_client.rb`** — raises `TwentyClient::ApiError` on any non-2xx response (or network failure). The error is caught and retried automatically by `TwentyMailSyncJob` via `retry_on TwentyClient::ApiError` (up to 5 attempts with exponential back-off).
+
 ## Dependencies (Gemfile)
 
 ```ruby
