@@ -31,6 +31,12 @@ gem 'calendav', '~> 0.5.0'
 
 See root `.env.example` — requires `TWENTY_API_URL`, `TWENTY_API_KEY`, `DOBASE_CALDAV_URL`.
 
+## Retry semantics
+
+- **Discard on `RecordNotFound`** — if the `Mail` record has been deleted by the time the job runs, `ActiveRecord::RecordNotFound` is raised and the job is permanently discarded (no retry, no error noise).
+- **Polynomial retry on transient errors** — `TwentyClient::TransientError` (5xx / 429 responses), `HTTParty::Error`, `Net::OpenTimeout`, and `Net::ReadTimeout` are all retried up to 5 attempts with `wait: :polynomially_longer` back-off, satisfying NFR-2.
+- **Idempotency via `externalId`** — every activity is created with `externalId: "dobase-mail-<id>"`, so re-running the job after a partial failure produces the same Twenty record rather than a duplicate.
+
 ## Documentation
 
 - [Webhook Bridge](https://danappfire.atlassian.net/wiki/spaces/DEV/pages/85458945)
