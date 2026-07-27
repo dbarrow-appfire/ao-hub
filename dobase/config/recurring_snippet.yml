@@ -1,0 +1,20 @@
+# Merge this entry into config/recurring.yml (Solid Queue recurring task
+# scheduler) under each environment you want the poll to run in, e.g.:
+#
+#   production:
+#     caldav_sync_scheduler:
+#       class: CaldavSyncSchedulerJob
+#       queue: integrations
+#       schedule: every 15 minutes
+#
+# sidekiq-cron equivalent, if this app is ever moved off Solid Queue:
+#
+#   caldav_sync_scheduler:
+#     cron: "*/15 * * * *"
+#     class: "CaldavSyncSchedulerJob"
+#     queue: integrations
+
+caldav_sync_scheduler:
+  class: CaldavSyncSchedulerJob
+  queue: integrations
+  schedule: every 15 minutes
