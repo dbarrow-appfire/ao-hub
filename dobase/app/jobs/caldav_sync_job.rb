@@ -40,12 +40,16 @@ class CaldavSyncJob < ApplicationJob
   end
 
   def normalize(event)
-    vevent = Icalendar::Calendar.parse(event.calendar_data).first.events.first
+    parsed = Icalendar::Calendar.parse(event.calendar_data)
+    return nil unless parsed&.first
+
+    vevent = parsed.first&.events&.first
+    return nil unless vevent
 
     {
-      uid: vevent.uid.to_s,
-      title: vevent.summary.to_s,
-      description: vevent.description.to_s,
+      uid: vevent.uid&.to_s,
+      title: vevent.summary&.to_s,
+      description: vevent.description&.to_s,
       starts_at: vevent.dtstart&.to_time,
       ends_at: vevent.dtend&.to_time,
       attendee_emails: Array(vevent.attendee).map { |attendee| attendee.to_s.sub(/\Amailto:/i, '') }
