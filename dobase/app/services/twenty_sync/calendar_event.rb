@@ -3,6 +3,8 @@
 module TwentySync
   class CalendarEvent
     def self.upsert(user, event)
+      return if event[:starts_at].blank?
+
       payload = {
         title: event[:title],
         body: event[:description],
