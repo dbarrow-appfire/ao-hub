@@ -8,8 +8,8 @@ See [Confluence — Environment Variables](https://danappfire.atlassian.net/wiki
 | `TWENTY_API_KEY` | Dobase (Rails) | API key from Twenty Settings → API & Webhooks |
 | `DOBASE_CALDAV_URL` | Dobase (Rails) | Root URL of Radicale CalDAV server |
 | `DOBASE_URL` | Twenty SDK App | Base URL of Dobase API layer |
-| `DOBASE_TOKEN` | Twenty SDK App | Service account token for `/api/v1` endpoints |
+| `DOBASE_TOKEN` | Twenty SDK App | Scoped service account token for the SDK app's `/api/v1` calls; independently rotatable |
 | `DOBASE_API_URL` | MCP server | Dobase base URL for API calls |
-| `DOBASE_API_TOKEN` | MCP server | Token for Dobase API authentication |
+| `DOBASE_API_TOKEN` | MCP server | Separate scoped service account token for the MCP server; must not reuse `DOBASE_TOKEN` |
 
-Never commit secrets. Use `.env` locally and your platform's secret manager in production.
+Never commit secrets. Use `.env` locally and your platform's secret manager in production. See [Token Strategy](./TOKEN_STRATEGY.md) for the security decision, scopes, and rotation approach.
