@@ -37,6 +37,7 @@ python server.py
 - [MCP Server](https://danappfire.atlassian.net/wiki/spaces/DEV/pages/85524481)
 - [Setup and Configuration](https://danappfire.atlassian.net/wiki/spaces/DEV/pages/85393410)
 - [MCP Tools Reference](https://danappfire.atlassian.net/wiki/spaces/DEV/pages/85721089)
+- [Token Strategy](../docs/TOKEN_STRATEGY.md)
 
 ## Jira
 
@@ -45,3 +46,5 @@ python server.py
 ## Architecture note
 
 Twenty's native MCP server handles CRM reads/writes. This server handles Dobase communication data. Configure both in your AI client.
+
+`DOBASE_API_TOKEN` must be a separate, least-privilege scoped service-account token, not the SDK's `DOBASE_TOKEN` — see [Token Strategy](../docs/TOKEN_STRATEGY.md).
