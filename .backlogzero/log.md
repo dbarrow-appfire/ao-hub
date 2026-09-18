@@ -5,3 +5,5 @@
 - Wrote knowledge/architecture.md: mermaid flowchart of the real HTTP call graph across the four layers, including the divergence in mcp-server/README.md's architecture note (the MCP server calls Twenty directly, not just Dobase).
 - Wrote knowledge/gotchas.md: load-time env var failure in TwentyClient, guaranteed NotImplementedError in CaldavSyncJob, client-side secret exposure risk in DobaseSidebar.tsx, and the always-empty Dobase API stubs.
 - Wrote conventions/http-client-patterns.md: shared auth-header helper pattern, Twenty's REST filter DSL, and the Ruby-vs-Python difference in HTTP error handling before unwrapping responses.
+25b0728b-4ebc-4477-b230-8829ad89bd20: corrected knowledge/gotchas.md — TwentyClient now checks credentials lazily per-call (MissingCredentialsError) instead of raising KeyError at load time; added retry/backoff/logging gotcha
+25b0728b-4ebc-4477-b230-8829ad89bd20: corrected conventions/http-client-patterns.md — Ruby TwentyClient now checks response status and raises Retryable/NonRetryableError instead of silently returning nil on non-2xx
