@@ -14,5 +14,12 @@ class TwentyMailSyncJob < ApplicationJob
       linkedObjectRecordId: contact['id'],
       linkedObjectName: 'person'
     )
+  rescue TwentyClient::MissingCredentialsError => e
+    Rails.logger.error({
+      event: 'twenty_mail_sync_skipped',
+      mail_id: mail_id,
+      error_class: e.class.name
+    }.to_json)
+    nil
   end
 end
