@@ -116,6 +116,44 @@ RSpec.describe TwentyClient do
     end
   end
 
+  describe 'missing credentials' do
+    context 'when TWENTY_API_KEY is unset' do
+      it 'raises MissingCredentialsError without including the previous secret value' do
+        previous_secret = ENV['TWENTY_API_KEY']
+        ENV.delete('TWENTY_API_KEY')
+        error = nil
+
+        begin
+          TwentyClient.find_person_by_email(email)
+        rescue TwentyClient::MissingCredentialsError => e
+          error = e
+        end
+
+        expect(error).not_to be_nil
+        expect(error.message).to eq('TWENTY_API_KEY is not set')
+        expect(error.message).not_to include(previous_secret)
+      end
+    end
+
+    context 'when TWENTY_API_KEY is blank' do
+      it 'raises MissingCredentialsError without including the previous secret value' do
+        previous_secret = ENV['TWENTY_API_KEY']
+        ENV['TWENTY_API_KEY'] = ''
+        error = nil
+
+        begin
+          TwentyClient.find_person_by_email(email)
+        rescue TwentyClient::MissingCredentialsError => e
+          error = e
+        end
+
+        expect(error).not_to be_nil
+        expect(error.message).to eq('TWENTY_API_KEY is not set')
+        expect(error.message).not_to include(previous_secret)
+      end
+    end
+  end
+
   describe 'failure logging' do
     context 'when a call fails' do
       it 'logs a JSON string with endpoint, status, attempt, and error_class keys' do
