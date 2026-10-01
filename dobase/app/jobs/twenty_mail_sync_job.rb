@@ -36,8 +36,12 @@ class TwentyMailSyncJob < ApplicationJob
       linkedObjectName: 'person'
     )
   rescue TwentyClient::Error => e
-    retrying = e.is_a?(TwentyClient::RetryableError) && executions < MAX_ATTEMPTS
-    Rails.logger.public_send(retrying ? :warn : :error, log_line('twenty_call_failed', e))
+    # Non-retryable errors (ClientError/MissingCredentialsError) are logged once by their
+    # rescue_from handler below; logging them here too would duplicate the line.
+    if e.is_a?(TwentyClient::RetryableError)
+      retrying = executions < MAX_ATTEMPTS
+      Rails.logger.public_send(retrying ? :warn : :error, log_line('twenty_call_failed', e))
+    end
     raise
   end
 
