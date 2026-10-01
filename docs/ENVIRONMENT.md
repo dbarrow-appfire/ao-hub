@@ -12,4 +12,8 @@ See [Confluence — Environment Variables](https://danappfire.atlassian.net/wiki
 | `DOBASE_API_URL` | MCP server | Dobase base URL for API calls |
 | `DOBASE_API_TOKEN` | MCP server | Token for Dobase API authentication |
 
+Dobase reads `TWENTY_API_URL` and `TWENTY_API_KEY` when each Twenty call is made, not at boot.
+If either is unset or blank, `TwentyMailSyncJob` logs `twenty_sync_skipped` naming the variable
+(never its value) and discards the job instead of raising. See `dobase/README.md` → Mail sync failure handling.
+
 Never commit secrets. Use `.env` locally and your platform's secret manager in production.
