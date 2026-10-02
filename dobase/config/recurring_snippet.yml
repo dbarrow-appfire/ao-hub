@@ -1,0 +1,19 @@
+# Paste into config/recurring.yml (Solid Queue) and uncomment.
+# Polls Dobase CalDAV calendars every 15 minutes (Jira: DEV-107).
+#
+# production:
+#   caldav_sync:
+#     class: CaldavSyncScheduleJob
+#     queue: integrations
+#     schedule: every 15 minutes
+#
+# Not on Solid Queue? Schedule the same job another way:
+#   sidekiq-cron (config/schedule.yml):
+#     caldav_sync:
+#       cron: '*/15 * * * *'
+#       class: CaldavSyncScheduleJob
+#       queue: integrations
+#   whenever (config/schedule.rb):
+#     every 15.minutes do
+#       runner 'CaldavSyncScheduleJob.perform_later'
+#     end
